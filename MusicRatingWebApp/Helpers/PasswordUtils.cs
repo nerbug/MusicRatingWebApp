@@ -12,6 +12,7 @@ namespace MusicRatingWebApp.Helpers
 
             using (var rng = RandomNumberGenerator.Create())
             {
+                // Generate random bytes from PRNG and put them into the salt
                 rng.GetBytes(salt);
             }
 
@@ -20,6 +21,7 @@ namespace MusicRatingWebApp.Helpers
 
         public static string HashPassword(string password, byte[] salt)
         {
+            // Hash password and convert to base64 string for database storage purposes
             string result = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
                 salt: salt,

@@ -20,21 +20,12 @@ namespace MusicRatingWebApp.Controllers
             this.repository = repository;
         }
 
-        // GET: api/songs
-        //[HttpGet]
-        //public ActionResult<IEnumerable<SimpleSongOutputDto>> GetSongs()
-        //{
-        //    var songs = repository.GetSongs();
-        //    var songDtos = songs.Select(song => SongMapper.MapToSimpleOutputDto(song, repository)).ToList();
-
-        //    return Ok(songDtos);
-        //}
-
         // GET: api/songs?minYear=1985&genre=Metal
         [HttpGet]
         public ActionResult<IEnumerable<SimpleSongOutputDto>> GetSongs(int? minYear, int? maxYear, string title,
             string genre)
         {
+            // Retrieve from database and map to output DTOs
             var songs = repository.GetFilteredSongs(minYear, maxYear, title, genre);
             var songDtos = songs.Select(song => SongMapper.MapToSimpleOutputDto(song, repository));
 
@@ -57,9 +48,11 @@ namespace MusicRatingWebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult PutSong(int id, SongInputDto songInputDto)
         {
+            // Check for mismatching IDs
             if (id != songInputDto.Id)
                 return BadRequest();
 
+            // Check if a title and genre were provided by the user
             if (songInputDto.Title == null || songInputDto.Genre == null)
                 return BadRequest();
 
@@ -86,6 +79,7 @@ namespace MusicRatingWebApp.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult<DetailedSongOutputDto> PostSong(SongInputDto songInputDto)
         {
+            // Check if title and genre were provided
             if (songInputDto.Title == null || songInputDto.Genre == null)
                 return BadRequest();
 

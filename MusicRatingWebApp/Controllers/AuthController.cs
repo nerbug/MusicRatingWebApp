@@ -18,6 +18,7 @@ namespace MusicRatingWebApp.Controllers
         [HttpPost("login")]
         public IActionResult Login(UserLoginDto dto)
         {
+            // CreateJwtToken returns null, if the provided username or password were incorrect.
             string jwtTokenString = repository.CreateJwtToken(dto);
             if (jwtTokenString == null)
                 return Unauthorized(new {message = "Username or password is incorrect!"});

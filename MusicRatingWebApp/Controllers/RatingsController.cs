@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +25,7 @@ namespace MusicRatingWebApp.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<RatingOutputDto>> GetRatings()
         {
+            // Get ratings and map to DTOs
             var ratings = repository.GetRatings();
             var ratingDtos = ratings.Select(r => RatingMapper.MapToOutputDto(r, repository)).ToList();
 
@@ -38,6 +37,7 @@ namespace MusicRatingWebApp.Controllers
         public ActionResult<RatingOutputDto> GetRating(int id)
         {
             var rating = repository.GetRating(id);
+            // Check if rating exists
             if (rating == null)
                 return NotFound();
 
@@ -49,6 +49,7 @@ namespace MusicRatingWebApp.Controllers
         [Authorize(Roles = "Admin,User")]
         public IActionResult PutRating(int id, RatingInputDto ratingInputDto)
         {
+            // Check for mismatching IDs in query string and request body
             if (id != ratingInputDto.Id)
                 return BadRequest(new {message = "IDs in query string and request body don't match!"});
 
@@ -71,6 +72,7 @@ namespace MusicRatingWebApp.Controllers
             if (repository.UserAndSongExists(givenUserId, givenSongId))
             {
                 var ratingEntry = repository.GetRating(id);
+                // Check if rating exists
                 if (ratingEntry == null)
                     return NotFound();
 
