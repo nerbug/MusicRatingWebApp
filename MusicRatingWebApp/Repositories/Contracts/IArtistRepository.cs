@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using MusicRatingWebApp.Controllers;
+using MusicRatingWebApp.Controllers.API;
 using MusicRatingWebApp.Models;
 using MusicRatingWebApp.Models.DTOs;
 
@@ -13,7 +13,7 @@ namespace MusicRatingWebApp.Repositories.Contracts
         Artist GetArtist(int id);
         IActionResult PutArtist(int id, Artist artist, ControllerBase controller);
 
-        ActionResult<DetailedArtistOutputDto> PostArtist(string action, Artist artist, ArtistsController controller);
+        ActionResult<DetailedArtistOutputDto> PostArtist(string action, Artist artist, ApiArtistsController controller);
 
         void DeleteArtist(Artist artist);
         int GetRatingsCountForArtist(Artist artist);

@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using MusicRatingWebApp.Controllers;
+using MusicRatingWebApp.Controllers.API;
 using MusicRatingWebApp.Helpers;
 using MusicRatingWebApp.Models;
 using MusicRatingWebApp.Models.DTOs;
@@ -43,7 +41,7 @@ namespace MusicRatingWebApp.Repositories.Implementations
 
         private bool ArtistExists(int id) => context.Artists.Any(a => a.Id == id);
 
-        public ActionResult<DetailedArtistOutputDto> PostArtist(string action, Artist artist, ArtistsController controller)
+        public ActionResult<DetailedArtistOutputDto> PostArtist(string action, Artist artist, ApiArtistsController controller)
         {
             context.Artists.Add(artist);
             context.SaveChanges();

@@ -7,15 +7,15 @@ using MusicRatingWebApp.Models;
 using MusicRatingWebApp.Models.DTOs;
 using MusicRatingWebApp.Repositories.Contracts;
 
-namespace MusicRatingWebApp.Controllers
+namespace MusicRatingWebApp.Controllers.API
 {
-    [Route("api/[controller]")]
+    [Route("api/artists")]
     [ApiController]
-    public class ArtistsController : ControllerBase
+    public class ApiArtistsController : ControllerBase
     {
         private readonly IArtistRepository repository;
 
-        public ArtistsController(IArtistRepository repository)
+        public ApiArtistsController(IArtistRepository repository)
         {
             this.repository = repository;
         }

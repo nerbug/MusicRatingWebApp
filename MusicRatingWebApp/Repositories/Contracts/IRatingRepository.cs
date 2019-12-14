@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using MusicRatingWebApp.Controllers;
+using MusicRatingWebApp.Controllers.API;
 using MusicRatingWebApp.Models;
 using MusicRatingWebApp.Models.DTOs;
 
@@ -12,7 +12,7 @@ namespace MusicRatingWebApp.Repositories.Contracts
         Rating GetRating(int id);
         bool UserAndSongExists(int userId, int songId);
         IActionResult PutRating(int id, Rating rating, ControllerBase controller);
-        ActionResult<RatingOutputDto> PostRating(string action, Rating rating, RatingsController controller);
+        ActionResult<RatingOutputDto> PostRating(string action, Rating rating, ApiRatingsController controller);
         void DeleteRating(Rating rating);
         UserInfoDto GetUserInfoForRating(Rating rating);
         SongInfoDto GetSongInfoForRating(Rating rating);

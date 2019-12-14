@@ -2,15 +2,15 @@
 using MusicRatingWebApp.Models.DTOs;
 using MusicRatingWebApp.Repositories.Contracts;
 
-namespace MusicRatingWebApp.Controllers
+namespace MusicRatingWebApp.Controllers.API
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class ApiAuthController : ControllerBase
     {
         private readonly IUserRepository repository;
 
-        public AuthController(IUserRepository repository)
+        public ApiAuthController(IUserRepository repository)
         {
             this.repository = repository;
         }

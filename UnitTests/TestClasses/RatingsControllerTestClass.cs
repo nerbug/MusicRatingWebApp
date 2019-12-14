@@ -2,10 +2,9 @@
 using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MusicRatingWebApp.Controllers;
+using MusicRatingWebApp.Controllers.API;
 using MusicRatingWebApp.Helpers;
 using MusicRatingWebApp.Models;
-using MusicRatingWebApp.Models.DTOs;
 using MusicRatingWebApp.Repositories.Implementations;
 using Xunit;
 
@@ -33,7 +32,7 @@ namespace UnitTests.TestClasses
             new Rating {Id = 2, NumberOfStars = 4, SongId = 2, UserId = 2}
         };
 
-        private readonly RatingsController controller;
+        private readonly ApiRatingsController controller;
 
         public RatingsControllerTestClass()
         {
@@ -103,7 +102,7 @@ namespace UnitTests.TestClasses
             Assert.IsType<NotFoundResult>(serverCode);
         }
 
-        private RatingsController SetupController()
+        private ApiRatingsController SetupController()
         {
             var options = new DbContextOptionsBuilder<MusicRatingWebAppDbContext>()
                 .UseInMemoryDatabase("RatingControllerTest").Options;
@@ -120,7 +119,7 @@ namespace UnitTests.TestClasses
             context.SaveChanges();
 
             var repository = new RatingRepository(context);
-            var controllerObj = new RatingsController(repository);
+            var controllerObj = new ApiRatingsController(repository);
 
             return controllerObj;
         }

@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MusicRatingWebApp.Controllers;
+using MusicRatingWebApp.Controllers.API;
 using MusicRatingWebApp.Helpers;
 using MusicRatingWebApp.Models;
 using MusicRatingWebApp.Models.DTOs;
@@ -49,7 +49,7 @@ namespace MusicRatingWebApp.Repositories.Implementations
             return controller.NoContent();
         }
 
-        public ActionResult<RatingOutputDto> PostRating(string action, Rating rating, RatingsController controller)
+        public ActionResult<RatingOutputDto> PostRating(string action, Rating rating, ApiRatingsController controller)
         {
             context.Ratings.Add(rating);
             context.SaveChanges();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MusicRatingWebApp.Controllers;
+using MusicRatingWebApp.Controllers.API;
 using MusicRatingWebApp.Helpers;
 using MusicRatingWebApp.Models;
 using MusicRatingWebApp.Models.DTOs;
@@ -66,7 +66,7 @@ namespace MusicRatingWebApp.Repositories.Implementations
             return controller.NoContent();
         }
 
-        public ActionResult<DetailedSongOutputDto> PostSong(string action, Song song, SongsController controller)
+        public ActionResult<DetailedSongOutputDto> PostSong(string action, Song song, ApiSongsController controller)
         {
             context.Songs.Add(song);
             context.SaveChanges();
