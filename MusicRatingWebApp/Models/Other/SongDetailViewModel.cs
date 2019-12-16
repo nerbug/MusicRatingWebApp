@@ -1,6 +1,6 @@
 ﻿using MusicRatingWebApp.Models.DTOs;
 
-namespace MusicRatingWebApp.Models
+namespace MusicRatingWebApp.Models.Other
 {
     public class SongDetailViewModel
     {
