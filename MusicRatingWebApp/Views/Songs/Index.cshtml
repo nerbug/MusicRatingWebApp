@@ -4,11 +4,19 @@
     ViewData["Title"] = "List of songs";
 }
 
-<h1>List of songs</h1>
+<h1 class="mb-4">List of songs</h1>
 
-<p>
-    <a asp-action="Create">Create new song</a>
-</p>
+@{
+    if (User.IsInRole("Admin"))
+    {
+        <div class="my-4">
+            <h5>
+                <a asp-controller="Songs" asp-action="Create">Create new song</a>
+            </h5>
+        </div>
+    }
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -24,13 +32,19 @@
             <th>
                 @Html.DisplayNameFor(model => model.Genre)
             </th>
-            <th>
-                Admin buttons
-            </th>
+            @{
+                if (User.IsInRole("Admin"))
+                {
+                    <th>
+                        Admin buttons
+                    </th>
+                }
+            }
         </tr>
     </thead>
     <tbody>
-@foreach (var song in Model) {
+        @foreach (var song in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => song.Artist.Name)
@@ -46,12 +60,17 @@
             <td>
                 @Html.DisplayFor(modelItem => song.Genre)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@song.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@song.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@song.Id">Delete</a>
-            </td>
+            @{
+                if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@song.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@song.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@song.Id">Delete</a>
+                    </td>
+                }
+            }
         </tr>
-}
+        }
     </tbody>
 </table>

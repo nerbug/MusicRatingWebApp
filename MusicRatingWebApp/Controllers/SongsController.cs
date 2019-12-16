@@ -1,8 +1,11 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using MusicRatingWebApp.Helpers;
 using MusicRatingWebApp.Models;
 using MusicRatingWebApp.Models.Other;
@@ -12,12 +15,14 @@ namespace MusicRatingWebApp.Controllers
 {
     public class SongsController : Controller
     {
-        private readonly ISongRepository repository;
+        private readonly ISongRepository songRepository;
+        private readonly IRatingRepository ratingRepository;
         private readonly MusicRatingWebAppDbContext _context;
 
-        public SongsController(ISongRepository repository, MusicRatingWebAppDbContext context)
+        public SongsController(ISongRepository songRepository, IRatingRepository ratingRepository, MusicRatingWebAppDbContext context)
         {
-            this.repository = repository;
+            this.songRepository = songRepository;
+            this.ratingRepository = ratingRepository;
             _context = context;
         }
 
@@ -44,21 +49,85 @@ namespace MusicRatingWebApp.Controllers
                 return NotFound();
             }
 
-            var songDto = SongMapper.MapToDetailedOutputDto(song, repository);
+            var songDto = SongMapper.MapToDetailedOutputDto(song, songRepository);
+            SongDetailViewModel viewModel;
 
-            // Temporary
-            int userRating = -1;
-
-            var viewModel = new SongDetailViewModel
+            // Get current user's ID, if it exists
+            Claim currentUserIdClaim = User.Claims.FirstOrDefault(c => c.Type == "userId");
+            if (currentUserIdClaim == null)
             {
-                Song = songDto,
-                UsersCurrentRating = userRating
-            };
+                // User is not logged in
+                viewModel = new SongDetailViewModel
+                {
+                    Song = songDto,
+                    UsersCurrentRating = 0
+                };
+            }
+            else
+            {
+                // User is logged in, check if the user has rated the song
+                int userId = int.Parse(currentUserIdClaim.Value);
+                Rating rating = ratingRepository.GetRatingWithUserAndSongIds(userId, song.Id);
+                if (rating == null)
+                    // User hasn't rated the song
+                    viewModel = new SongDetailViewModel
+                    {
+                        Song = songDto,
+                        UsersCurrentRating = 0
+                    };
+                else
+                {
+                    // User has rated the song, get current rating
+                    viewModel = new SongDetailViewModel
+                    {
+                        Song = songDto,
+                        UsersCurrentRating = rating.NumberOfStars
+                    };
+                }
+            }
 
             return View(viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,User")]
+        public IActionResult Details(int? id, int CurrentUsersRating)
+        {
+            if (!id.HasValue)
+                return BadRequest();
+
+            int userId = int.Parse(User.Claims.First(c => c.Type == "userId").Value);
+            int songId = id.Value;
+            int numberOfStars = CurrentUsersRating;
+
+            // Check if rating already exists in the database. If so, we update it.
+            Rating rating = ratingRepository.GetRatingWithUserAndSongIds(userId, songId);
+            if (rating != null)
+            {
+                rating.NumberOfStars = numberOfStars;
+                _context.Update(rating);
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(Details), new {id = songId});
+            }
+
+            // Rating doesn't exist, so we create one
+            var newRating = new Rating
+            {
+                UserId = userId,
+                SongId = songId,
+                NumberOfStars = numberOfStars
+            };
+
+            _context.Ratings.Add(newRating);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Details), new {id = songId});
+        }
+
         // GET: Songs/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["ArtistId"] = new SelectList(_context.Artists, "Id", "Name");
@@ -70,6 +139,7 @@ namespace MusicRatingWebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("ArtistId,Id,Title,Year,Genre")] Song song)
         {
             var byArtist = _context.Artists.FirstOrDefault(a => a.Id == song.ArtistId);
@@ -87,6 +157,7 @@ namespace MusicRatingWebApp.Controllers
         }
 
         // GET: Songs/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -108,6 +179,7 @@ namespace MusicRatingWebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("ArtistId,Id,Title,Year,Genre")] Song song)
         {
             if (id != song.Id)
@@ -144,6 +216,7 @@ namespace MusicRatingWebApp.Controllers
         }
 
         // GET: Songs/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -165,6 +238,7 @@ namespace MusicRatingWebApp.Controllers
         // POST: Songs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var song = await _context.Songs.FindAsync(id);

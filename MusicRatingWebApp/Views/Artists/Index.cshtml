@@ -4,11 +4,18 @@
     ViewData["Title"] = "List of artists";
 }
 
-<h1>List of artists</h1>
+<h1 class="mb-4">List of artists</h1>
 
-<p>
-    <a asp-action="Create">Create new artist</a>
-</p>
+@{
+    if (User.IsInRole("Admin"))
+    {
+    <div class="my-4">
+        <h5>
+            <a asp-controller="Artists" asp-action="Create">Create new artist</a>
+        </h5>
+    </div>
+    }
+}
 
 <div class="row">
     @{
@@ -16,27 +23,30 @@
         {
             <div class="col-md-4 my-2">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a asp-action="Details" asp-route-id="@artist.Id">
-                                @Html.DisplayFor(modelItem => artist.Name)
-                            </a>
-                        </h5>
-                        <h6 class="card-subtitle text-muted mt-4">
-                            <b>
-                                Rating count: 
-                            </b>
-                            @Html.DisplayFor(modelItem => artist.RatingsCount)
-                        </h6>
-                        <h6 class="card-subtitle text-muted mt-2 mb-4">
-                            <b>
-                                Average rating: 
-                            </b>
-                            @Html.DisplayFor(modelItem => artist.AverageRating)
-                        </h6>
-                        <a asp-action="Edit" asp-route-id="@artist.Id" class="btn-primary rounded p-1">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@artist.Id" class="btn-danger rounded p-1">Delete</a>
-                    </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a asp-action="Details" asp-route-id="@artist.Id">
+                                    @Html.DisplayFor(modelItem => artist.Name)
+                                </a>
+                            </h5>
+                            <h6 class="card-subtitle text-muted mt-4">
+                                <b>
+                                    Rating count:
+                                </b>
+                                @Html.DisplayFor(modelItem => artist.RatingsCount)
+                            </h6>
+                            <h6 class="card-subtitle text-muted mt-2 mb-4">
+                                <b>
+                                    Average rating:
+                                </b>
+                                @Html.DisplayFor(modelItem => artist.AverageRating)
+                            </h6>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@artist.Id" class="btn-primary rounded p-1">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@artist.Id" class="btn-danger rounded p-1">Delete</a>
+                            }
+                        </div>
                 </div>
             </div>
         }

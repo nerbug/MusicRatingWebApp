@@ -79,7 +79,7 @@
             </b>
             @if (Model.Song.RatingDistribution.Two != 0)
             {
-                @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
+                @($"{Model.Song.RatingDistribution.Two} / {Model.Song.RatingsCount}")
             }
             else
             {
@@ -94,7 +94,7 @@
             </b>
             @if (Model.Song.RatingDistribution.Three != 0)
             {
-                @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
+                @($"{Model.Song.RatingDistribution.Three} / {Model.Song.RatingsCount}")
             }
             else
             {
@@ -109,7 +109,7 @@
             </b>
             @if (Model.Song.RatingDistribution.Four != 0)
             {
-                @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
+                @($"{Model.Song.RatingDistribution.Four} / {Model.Song.RatingsCount}")
             }
             else
             {
@@ -124,7 +124,7 @@
             </b>
             @if (Model.Song.RatingDistribution.Five != 0)
             {
-                @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
+                @($"{Model.Song.RatingDistribution.Five} / {Model.Song.RatingsCount}")
             }
             else
             {
@@ -132,4 +132,74 @@
             }
         </div>
     </div>
+</div>
+
+<h3>Your rating</h3>
+
+<div class="row my-4">
+    @{
+        if (!User.Identity.IsAuthenticated)
+        {
+            <div class="col-md-4 text-muted">
+                <a asp-controller="Auth" asp-action="Register">
+                    Register
+                </a> or
+                <a asp-controller="Auth" asp-action="Login">
+                    login
+                </a> to be able to rate songs!
+            </div>
+        }
+        else
+        {
+            if (Model.UsersCurrentRating == 0)
+            {
+                <div class="col-md-4 text-muted">You haven't rated this song yet!</div>
+            }
+            else if (Model.UsersCurrentRating == 1)
+            {
+                <div class="col-md-4 text-muted">Your current rating for this song is 1 star!</div>
+            }
+            else
+            {
+                <div class="col-md-4 text-muted">Your current rating for this song is @Model.UsersCurrentRating stars!</div>
+            }
+        }
+    }
+</div>
+
+@{
+    if (User.Identity.IsAuthenticated)
+    {
+        int currentRating = Model.UsersCurrentRating;
+        <form asp-action="Details" asp-route-id="@Model.Song.Id" method="post">
+            <div class="row">
+                <div class="col-1 text-muted">Rating: </div>
+                <div class="col-11">
+                    <div class="form-group">
+                        <input type="radio" id="radioButton1" name="CurrentUsersRating" value="1" checked="@(currentRating == 1)" />
+                        <label>1</label>
+                        <input type="radio" id="radioButton2" name="CurrentUsersRating" value="2" checked="@(currentRating == 2)" />
+                        <label>2</label>
+                        <input type="radio" id="radioButton3" name="CurrentUsersRating" value="3" checked="@(currentRating == 3)" />
+                        <label>3</label>
+                        <input type="radio" id="radioButton4" name="CurrentUsersRating" value="4" checked="@(currentRating == 4)" />
+                        <label>4</label>
+                        <input type="radio" id="radioButton5" name="CurrentUsersRating" value="5" checked="@(currentRating == 5)" />
+                        <label>5</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <input type="submit" value="Submit / change rating" class="btn btn-success col-2 mx-3 mb-4"/>
+            </div>
+        </form>
+    }
+}
+
+<div>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Song.Id" class="btn btn-primary rounded p-2 mr-1">Edit song</a>
+    }
+    <a asp-action="Index" class="btn btn-secondary rounded p-2">Back to song list</a>
 </div>

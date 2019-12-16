@@ -1,4 +1,6 @@
-﻿namespace MusicRatingWebApp.Models.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MusicRatingWebApp.Models.DTOs
 {
     public class SimpleSongOutputDto
     {
@@ -7,6 +9,8 @@
         public int Year { get; set; }
         public string Genre { get; set; }
         public int RatingsCount { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:F}", ApplyFormatInEditMode = true)]
         public double AverageRating { get; set; }
     }
 }
