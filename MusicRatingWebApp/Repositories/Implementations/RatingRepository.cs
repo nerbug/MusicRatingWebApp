@@ -86,5 +86,8 @@ namespace MusicRatingWebApp.Repositories.Implementations
                 SongTitle = songTitle
             };
         }
+
+        public Rating GetRatingWithUserAndSongIds(int userId, int songId) =>
+            context.Ratings.FirstOrDefault(r => r.UserId == userId && r.SongId == songId);
     }
 }

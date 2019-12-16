@@ -1,0 +1,135 @@
+﻿@model MusicRatingWebApp.Models.SongDetailViewModel
+
+@{
+    ViewData["Title"] = $"{Model.Song.Title} by {Model.Song.ArtistInfo.ArtistName}";
+}
+
+<h1>@Html.DisplayFor(model => model.Song.Title)</h1>
+
+<div class="my-4">
+    <div class="row my-2">
+        <div class="col text-muted">
+            <b>
+                Artist: 
+            </b>
+            @Html.DisplayFor(model => model.Song.ArtistInfo.ArtistName)
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col text-muted">
+            <b>
+                Year: 
+            </b>
+            @Html.DisplayFor(model => model.Song.Year)
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col text-muted">
+            <b>
+                Genre: 
+            </b>
+            @Html.DisplayFor(model => model.Song.Genre)
+        </div>
+    </div>
+</div>
+
+<h3>Rating information</h3>
+
+<div class="my-4">
+    <div class="row my-2">
+        <div class="col text-muted">
+            <b>
+                Average rating: 
+            </b>
+            @Html.DisplayFor(model => model.Song.AverageRating)
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col text-muted">
+            <b>
+                Number of ratings: 
+            </b>
+            @Html.DisplayFor(model => model.Song.RatingsCount)
+        </div>
+    </div>
+</div>
+
+<h5>Rating distribution</h5>
+
+<div class="my-4">
+    <div class="row my-2">
+        <div class="col text-muted">
+            <b>
+                1 star:
+            </b>
+            @if (Model.Song.RatingDistribution.One != 0)
+            {
+                @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
+            }
+            else
+            {
+                <span>No ratings</span>
+            }
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col text-muted">
+            <b>
+                2 stars:
+            </b>
+            @if (Model.Song.RatingDistribution.Two != 0)
+            {
+                @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
+            }
+            else
+            {
+                <span>No ratings</span>
+            }
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col text-muted">
+            <b>
+                3 stars:
+            </b>
+            @if (Model.Song.RatingDistribution.Three != 0)
+            {
+                @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
+            }
+            else
+            {
+                <span>No ratings</span>
+            }
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col text-muted">
+            <b>
+                4 stars:
+            </b>
+            @if (Model.Song.RatingDistribution.Four != 0)
+            {
+                @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
+            }
+            else
+            {
+                <span>No ratings</span>
+            }
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col text-muted">
+            <b>
+                5 stars:
+            </b>
+            @if (Model.Song.RatingDistribution.Five != 0)
+            {
+                @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
+            }
+            else
+            {
+                <span>No ratings</span>
+            }
+        </div>
+    </div>
+</div>

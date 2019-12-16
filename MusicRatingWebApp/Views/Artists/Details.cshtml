@@ -1,7 +1,7 @@
 ﻿@model MusicRatingWebApp.Models.DTOs.DetailedArtistOutputDto
 
 @{
-    ViewData["Title"] = @Html.DisplayFor(model => model.Name);
+    ViewData["Title"] = Model.Name;
 }
 
 <h1>@Html.DisplayFor(model => model.Name)</h1>
@@ -41,7 +41,7 @@
             {
                 <tr>
                     <td>
-                        <a asp-controller="Artists" asp-action="Details" asp-route-id="@song.Id">
+                        <a asp-controller="Songs" asp-action="Details" asp-route-id="@song.Id">
                             @Html.DisplayFor(modelItem => song.Title)
                         </a>
                     </td>

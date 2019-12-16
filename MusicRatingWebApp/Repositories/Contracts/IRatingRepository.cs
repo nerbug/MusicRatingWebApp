@@ -16,5 +16,7 @@ namespace MusicRatingWebApp.Repositories.Contracts
         void DeleteRating(Rating rating);
         UserInfoDto GetUserInfoForRating(Rating rating);
         SongInfoDto GetSongInfoForRating(Rating rating);
+
+        Rating GetRatingWithUserAndSongIds(int userId, int songId);
     }
 }

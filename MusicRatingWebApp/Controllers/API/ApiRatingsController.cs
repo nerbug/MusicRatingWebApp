@@ -136,5 +136,12 @@ namespace MusicRatingWebApp.Controllers.API
             repository.DeleteRating(ratingEntry);
             return NoContent();
         }
+
+        // GET: api/ratings?userId=4&songId=6
+        public ActionResult<int> GetRatingWithUserAndSongIds(int userId, int songId)
+        {
+            var rating = repository.GetRatingWithUserAndSongIds(userId, songId);
+            return rating?.NumberOfStars ?? -1;
+        }
     }
 }

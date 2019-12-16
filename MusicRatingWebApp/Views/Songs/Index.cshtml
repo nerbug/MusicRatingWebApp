@@ -1,0 +1,57 @@
+﻿@model IEnumerable<MusicRatingWebApp.Models.Song>
+
+@{
+    ViewData["Title"] = "List of songs";
+}
+
+<h1>List of songs</h1>
+
+<p>
+    <a asp-action="Create">Create new song</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Artist)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                Admin buttons
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var song in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => song.Artist.Name)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@song.Id">
+                    @Html.DisplayFor(modelItem => song.Title)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => song.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => song.Genre)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@song.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@song.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@song.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
