@@ -1,7 +1,9 @@
+using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +27,9 @@ namespace MusicRatingWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add application session state service
+            services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(60); });
+
             services.AddControllersWithViews();
 
             // Add authentication with JWT
@@ -75,6 +80,25 @@ namespace MusicRatingWebApp
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // Enable session state
+            app.UseSession();
+
+            app.Use(async (context, next) =>
+            {
+                // Try and retrieve JWT token string from session data
+                var jwtToken = context.Session.GetString("JwtToken");
+
+                // If the JWT token string exists, add it to the request's Authorization header.
+                // The JWT middleware will do the rest, decoding the JWT token from the string that
+                // was stored in the header, reading the claims and loading them into the HttpContext.User.Identity object.
+                // Later on, based on the user's claims, we can send out different looking web pages.
+                if (!string.IsNullOrEmpty(jwtToken))
+                    context.Request.Headers.Add("Authorization", "Bearer " + jwtToken);
+
+                // We're finished here, go down the rest of the pipeline.
+                await next();
+            });
 
             // Add JWT authentication
             app.UseAuthentication();
