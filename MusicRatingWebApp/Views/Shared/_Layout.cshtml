@@ -54,12 +54,42 @@
     </div>
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - Aldas Taraškevičius, IFF-6/15
+            <div class="row">
+                <div class="col text-lg-left">
+                    &copy; @DateTime.Now.Year - Aldas Taraškevičius, IFF-6/15
+                </div>
+                <div class="col text-right">
+                    <a href="#" data-toggle="modal" data-target="#basicHelpModal">Basic help</a>
+                </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
+    <!-- Modal -->
+    <div class="modal fade" id="basicHelpModal" tabindex="-1" role="dialog" aria-labelledby="basicHelpModalTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="basicHelpModalTitle">Basic help</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>To see a list of all artists, click the <em>Artists</em> tab. To see more details about an artist, click on the artist's name.</p>
+                    <p>To see a list of all songs, click the <em>Songs</em> tab. To see more details about a song, click on the song's title.</p>
+                    <p>To login or register, click the <em>Login</em> and <em>Register</em> tabs respectively.</p>
+                    <p>If you login, you can add or change your rating of the song by going to the song's page, clicking on your desired rating and pressing the <em>Submit / change rating</em> button.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
