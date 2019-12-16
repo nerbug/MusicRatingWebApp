@@ -76,25 +76,25 @@ namespace MusicRatingWebApp.Repositories.Implementations
 
         private IEnumerable<Claim> GetClaims(User user)
         {
+            var claims = new List<Claim>();
+
+            // For any user, add username, user ID and user role claims
+            var usernameClaim = new Claim(ClaimTypes.Name, user.Username);
+            var userIdClaim = new Claim("userId", user.Id.ToString());
+            var userRoleClaim = new Claim(ClaimTypes.Role, "User");
+
+            claims.Add(usernameClaim);
+            claims.Add(userIdClaim);
+            claims.Add(userRoleClaim);
+
+            // If the user is an admin, we also need to additionally add an admin role claim
             if (user.Type == User.UserType.Admin)
             {
-                Claim[] claims =
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, "Admin"),
-                    new Claim(ClaimTypes.Role, "User"),
-                };
-                return claims;
+                var adminRoleClaim = new Claim(ClaimTypes.Role, "Admin");
+                claims.Add(adminRoleClaim);
             }
-            else
-            {
-                Claim[] claims =
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, "User"),
-                };
-                return claims;
-            }
+
+            return claims;
         }
     }
 }
