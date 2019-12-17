@@ -78,3 +78,22 @@ a {
 .copyright-text {
     color: #59a728;
 }
+
+/* Work Sans 
+-------------------------------------------------- */
+
+@font-face {
+    font-family: 'Work Sans';
+    src: url(fonts/WorkSans-Regular.ttf);
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Work Sans';
+    src: url(fonts/WorkSans-Bold.ttf);
+    font-weight: bold;
+}
+
+* {
+    font-family: 'Work Sans', sans-serif;
+}
