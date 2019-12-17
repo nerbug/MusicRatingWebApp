@@ -33,13 +33,13 @@ namespace MusicRatingWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             var artist = repository.GetArtist(id.Value);
             if (artist == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             var viewModel = ArtistMapper.MapToDetailedOutputDto(artist, repository);
@@ -77,13 +77,13 @@ namespace MusicRatingWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             var artist = await _context.Artists.FindAsync(id);
             if (artist == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
             return View(artist);
         }
@@ -98,7 +98,7 @@ namespace MusicRatingWebApp.Controllers
         {
             if (id != artist.Id)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             if (ModelState.IsValid)
@@ -112,7 +112,7 @@ namespace MusicRatingWebApp.Controllers
                 {
                     if (!ArtistExists(artist.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("NotFound");
                     }
                     else
                     {
@@ -130,14 +130,14 @@ namespace MusicRatingWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             var artist = await _context.Artists
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (artist == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             return View(artist);

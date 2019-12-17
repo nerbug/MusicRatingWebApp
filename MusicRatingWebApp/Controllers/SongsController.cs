@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using MusicRatingWebApp.Helpers;
 using MusicRatingWebApp.Models;
 using MusicRatingWebApp.Models.Other;
@@ -38,7 +37,7 @@ namespace MusicRatingWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             var song = await _context.Songs
@@ -46,7 +45,7 @@ namespace MusicRatingWebApp.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (song == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             var songDto = SongMapper.MapToDetailedOutputDto(song, songRepository);
@@ -162,13 +161,13 @@ namespace MusicRatingWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             var song = await _context.Songs.FindAsync(id);
             if (song == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
             ViewData["ArtistId"] = new SelectList(_context.Artists, "Id", "Name", song.ArtistId);
             return View(song);
@@ -184,7 +183,7 @@ namespace MusicRatingWebApp.Controllers
         {
             if (id != song.Id)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             var byArtist = _context.Artists.FirstOrDefault(a => a.Id == song.ArtistId);
@@ -202,7 +201,7 @@ namespace MusicRatingWebApp.Controllers
                 {
                     if (!SongExists(song.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("NotFound");
                     }
                     else
                     {
@@ -221,7 +220,7 @@ namespace MusicRatingWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             var song = await _context.Songs
@@ -229,7 +228,7 @@ namespace MusicRatingWebApp.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (song == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFound");
             }
 
             return View(song);
