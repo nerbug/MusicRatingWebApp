@@ -115,3 +115,49 @@ a {
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
+
+@keyframes get-slightly-bigger {
+    from {
+        transform: scale(1.0)
+    }
+    to {
+        transform: scale(1.05)
+    }
+}
+
+@keyframes reset-to-initial-size-after-hover {
+    from {
+        transform: scale(1.05)
+    }   
+    to {
+        transform: scale(1.0)
+    }
+}
+
+.card {
+    animation-name: reset-to-initial-size-after-hover;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+.card:hover {
+    animation-name: get-slightly-bigger;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+@keyframes reset-to-initial-position {
+    from {
+        transform: translateX(5%)
+    }
+    to {
+        transform: translateX(0%)
+    }
+}
+
+.table {
+    animation-name: reset-to-initial-position;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-timing-function: ease-out;
+}
