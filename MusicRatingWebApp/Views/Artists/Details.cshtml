@@ -60,7 +60,7 @@
 <div>
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary rounded p-2 mr-1">Edit artist</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary rounded"><img src="/icons/contract.svg" alt="Edit artist" width="26" height="26"/></a>
     }
     <a asp-action="Index" class="btn btn-secondary rounded p-2">Back to artist list</a>
 </div>

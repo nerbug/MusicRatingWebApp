@@ -43,8 +43,10 @@
                         </h6>
                         @if (User.IsInRole("Admin"))
                         {
-                            <a asp-action="Edit" asp-route-id="@artist.Id" class="btn-primary rounded p-1">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@artist.Id" class="btn-danger rounded p-1">Delete</a>
+                            <div class="align-content-center">
+                                <a asp-action="Edit" asp-route-id="@artist.Id" class="btn btn-primary" ><img src="/icons/contract.svg" height="20" width="20" alt="Edit artist" /></a>
+                                <a asp-action="Delete" asp-route-id="@artist.Id" class="btn btn-danger"><img src="/icons/recycle-bin.svg" height="20" width="20" alt="Delete artist" /></a>
+                            </div>
                         }
                     </div>
                 </div>
