@@ -2,6 +2,30 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1>To do: replace this home page!</h1>
+<div class="jumbotron">
+    <div class="row">
+        <div class="container align-middle">
+            <img src="/home-screen.jpg" alt="Music" width="75%" max-width="75%" class="d-block mx-auto rounded" />
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col">
+            <h2 class="text-center">Welcome to the music rating web application!</h2>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <h5 class="text-center">
+                You can browse the available artists and their songs by clicking on their respective tabs in the navigation bar.
+            </h5>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <h5 class="text-center">
+                <a asp-controller="Auth" asp-action="Register">Register</a> or
+                <a asp-controller="Auth" asp-action="Login">login</a> to be able to rate songs!
+            </h5>
+        </div>
+    </div>
 </div>
