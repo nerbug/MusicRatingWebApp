@@ -19,7 +19,7 @@ namespace MusicRatingWebApp.Repositories.Implementations
             this.context = context;
         }
 
-        public IEnumerable<Artist> GetArtists() => context.Artists;
+        public IEnumerable<Artist> GetArtists() => context.Artists.ToList();
         public Artist GetArtist(int id) => context.Artists.FirstOrDefault(a => a.Id == id);
 
         public IActionResult PutArtist(int id, Artist artist, ControllerBase controller)

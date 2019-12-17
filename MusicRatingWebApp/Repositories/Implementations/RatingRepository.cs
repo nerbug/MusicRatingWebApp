@@ -19,7 +19,7 @@ namespace MusicRatingWebApp.Repositories.Implementations
             this.context = context;
         }
 
-        public IEnumerable<Rating> GetRatings() => context.Ratings;
+        public IEnumerable<Rating> GetRatings() => context.Ratings.ToList();
 
         public Rating GetRating(int id) => context.Ratings.FirstOrDefault(r => r.Id == id);
 

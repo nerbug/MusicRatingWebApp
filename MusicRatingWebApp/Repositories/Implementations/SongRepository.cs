@@ -20,7 +20,7 @@ namespace MusicRatingWebApp.Repositories.Implementations
             this.context = context;
         }
 
-        public IEnumerable<Song> GetSongs() => context.Songs;
+        public IEnumerable<Song> GetSongs() => context.Songs.ToList();
         public IEnumerable<Song> GetFilteredSongs(int? minYear, int? maxYear, string title, string genre)
         {
             int min = minYear ?? GetOldestSongsYear();
