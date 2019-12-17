@@ -97,3 +97,21 @@ a {
 * {
     font-family: 'Work Sans', sans-serif;
 }
+
+/* Animation stuff
+-------------------------------------------------- */
+
+@keyframes darken-background {
+    from {
+        background-color: #28a745;
+    }
+    to {
+        background-color: #1b7037;
+    }
+}
+
+.nav-link:hover {
+    animation-name: darken-background;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
