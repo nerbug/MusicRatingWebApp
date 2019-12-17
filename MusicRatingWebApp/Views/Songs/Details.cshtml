@@ -1,16 +1,17 @@
-﻿@model MusicRatingWebApp.Models.Other.SongDetailViewModel
+﻿@using Microsoft.Extensions.Configuration
+@model MusicRatingWebApp.Models.Other.SongDetailViewModel
 
 @{
     ViewData["Title"] = $"{Model.Song.Title} by {Model.Song.ArtistInfo.ArtistName}";
 }
 
-<h1>@Html.DisplayFor(model => model.Song.Title)</h1>
+<h1>@Model.Song.Title</h1>
 
 <div class="my-4">
     <div class="row my-2">
         <div class="col text-muted">
             <b>
-                Artist: 
+                Artist:
             </b>
             @Html.DisplayFor(model => model.Song.ArtistInfo.ArtistName)
         </div>
@@ -18,7 +19,7 @@
     <div class="row my-2">
         <div class="col text-muted">
             <b>
-                Year: 
+                Year:
             </b>
             @Html.DisplayFor(model => model.Song.Year)
         </div>
@@ -26,7 +27,7 @@
     <div class="row my-2">
         <div class="col text-muted">
             <b>
-                Genre: 
+                Genre:
             </b>
             @Html.DisplayFor(model => model.Song.Genre)
         </div>
@@ -39,7 +40,7 @@
     <div class="row my-2">
         <div class="col text-muted">
             <b>
-                Average rating: 
+                Average rating:
             </b>
             @Html.DisplayFor(model => model.Song.AverageRating)
         </div>
@@ -47,7 +48,7 @@
     <div class="row my-2">
         <div class="col text-muted">
             <b>
-                Number of ratings: 
+                Number of ratings:
             </b>
             @Html.DisplayFor(model => model.Song.RatingsCount)
         </div>
@@ -56,154 +57,157 @@
 
 <h5>Rating distribution</h5>
 
-<div class="my-4">
-    <div class="row my-2">
-        <div class="col text-muted">
-            <b>
-                1 star:
-            </b>
-            @if (Model.Song.RatingDistribution.One != 0)
-            {
-                @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
-            }
-            else
-            {
-                <span>No ratings</span>
-            }
-        </div>
-    </div>
-    <div class="row my-2">
-        <div class="col text-muted">
-            <b>
-                2 stars:
-            </b>
-            @if (Model.Song.RatingDistribution.Two != 0)
-            {
-                @($"{Model.Song.RatingDistribution.Two} / {Model.Song.RatingsCount}")
-            }
-            else
-            {
-                <span>No ratings</span>
-            }
-        </div>
-    </div>
-    <div class="row my-2">
-        <div class="col text-muted">
-            <b>
-                3 stars:
-            </b>
-            @if (Model.Song.RatingDistribution.Three != 0)
-            {
-                @($"{Model.Song.RatingDistribution.Three} / {Model.Song.RatingsCount}")
-            }
-            else
-            {
-                <span>No ratings</span>
-            }
-        </div>
-    </div>
-    <div class="row my-2">
-        <div class="col text-muted">
-            <b>
-                4 stars:
-            </b>
-            @if (Model.Song.RatingDistribution.Four != 0)
-            {
-                @($"{Model.Song.RatingDistribution.Four} / {Model.Song.RatingsCount}")
-            }
-            else
-            {
-                <span>No ratings</span>
-            }
-        </div>
-    </div>
-    <div class="row my-2">
-        <div class="col text-muted">
-            <b>
-                5 stars:
-            </b>
-            @if (Model.Song.RatingDistribution.Five != 0)
-            {
-                @($"{Model.Song.RatingDistribution.Five} / {Model.Song.RatingsCount}")
-            }
-            else
-            {
-                <span>No ratings</span>
-            }
-        </div>
-    </div>
+<div>
+    <table class="table table-striped my-4 col-sm-2">
+        <tr>
+            <th>One star</th>
+            <td class="text-muted">
+                @if (Model.Song.RatingDistribution.One != 0)
+                {
+                    @($"{Model.Song.RatingDistribution.One} / {Model.Song.RatingsCount}")
+                }
+                else
+                {
+                    <span>N/A</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Two stars</th>
+            <td class="text-muted">
+                @if (Model.Song.RatingDistribution.Two != 0)
+                {
+                    @($"{Model.Song.RatingDistribution.Two} / {Model.Song.RatingsCount}")
+                }
+                else
+                {
+                    <span>N/A</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Three stars</th>
+            <td class="text-muted">
+                @if (Model.Song.RatingDistribution.Three != 0)
+                {
+                    @($"{Model.Song.RatingDistribution.Three} / {Model.Song.RatingsCount}")
+                }
+                else
+                {
+                    <span>N/A</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Four stars</th>
+            <td class="text-muted">
+                @if (Model.Song.RatingDistribution.Four != 0)
+                {
+                    @($"{Model.Song.RatingDistribution.Four} / {Model.Song.RatingsCount}")
+                }
+                else
+                {
+                    <span>N/A</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Five stars</th>
+            <td class="text-muted">
+                @if (Model.Song.RatingDistribution.Five != 0)
+                {
+                    @($"{Model.Song.RatingDistribution.Five} / {Model.Song.RatingsCount}")
+                }
+                else
+                {
+                    <span>N/A</span>
+                }
+            </td>
+        </tr>
+    </table>
 </div>
 
 <h3>Your rating</h3>
 
-<div class="row my-4">
-    @{
-        if (!User.Identity.IsAuthenticated)
+<div class="my-4">
+    <div class="row my-2 ml-0">
+        @if (!User.Identity.IsAuthenticated)
         {
-            <div class="col-md-4 text-muted">
-                <a asp-controller="Auth" asp-action="Register">
-                    Register
-                </a> or
-                <a asp-controller="Auth" asp-action="Login">
-                    login
-                </a> to be able to rate songs!
+            <div>
+                To see your rating for this song and to have the ability to rate songs, you need to <a asp-controller="Auth" asp-action="Register">register</a> or <a asp-controller="Auth" asp-action="Login">login</a> first.
             </div>
         }
         else
         {
             if (Model.UsersCurrentRating == 0)
             {
-                <div class="col-md-4 text-muted">You haven't rated this song yet!</div>
+                <div>
+                    You haven't rated this song yet!
+                </div>
             }
             else if (Model.UsersCurrentRating == 1)
             {
-                <div class="col-md-4 text-muted">Your current rating for this song is 1 star!</div>
+                <div>
+                    Your current rating for this song is 1 star!
+                </div>
             }
             else
             {
-                <div class="col-md-4 text-muted">Your current rating for this song is @Model.UsersCurrentRating stars!</div>
+                <div>
+                    Your current rating for this song is @Model.UsersCurrentRating stars!
+                </div>
             }
         }
-    }
+    </div>
 </div>
 
-@{
-    if (User.Identity.IsAuthenticated)
-    {
-        int currentRating = Model.UsersCurrentRating;
-        <form asp-action="Details" asp-route-id="@Model.Song.Id" method="post" class="ml-3">
-            <div class="row">
-                <div class="col-1 text-muted">Rating: </div>
-                <div class="col-11">
-                    <div class="form-group">
-                        <input type="radio" id="radioButton1" name="CurrentUsersRating" value="1" checked="@(currentRating == 1)" />
-                        <label>1</label>
-                        <input type="radio" id="radioButton2" name="CurrentUsersRating" value="2" checked="@(currentRating == 2)" />
-                        <label>2</label>
-                        <input type="radio" id="radioButton3" name="CurrentUsersRating" value="3" checked="@(currentRating == 3)" />
-                        <label>3</label>
-                        <input type="radio" id="radioButton4" name="CurrentUsersRating" value="4" checked="@(currentRating == 4)" />
-                        <label>4</label>
-                        <input type="radio" id="radioButton5" name="CurrentUsersRating" value="5" checked="@(currentRating == 5)" />
-                        <label>5</label>
-                    </div>
+@if (User.Identity.IsAuthenticated)
+{
+    int r = Model.UsersCurrentRating;
+    <div class="my-4">
+        <div class="row my-2 ml-0">
+            <div class="col-1 text-muted text-left pl-0 my-auto">
+                Rating:
+            </div>
+            <div class="col-11">
+                <div class="btn-group ml-3">
+                    <form asp-action="Details" asp-route-id="@Model.Song.Id" class="m-1">
+                        <input type="hidden" name="CurrentUsersRating" value="1" />
+                        <input type="submit" value="1" class="btn btn-success rounded" />
+                    </form>
+                    <form asp-action="Details" asp-route-id="@Model.Song.Id" class="m-1">
+                        <input type="hidden" name="CurrentUsersRating" value="2" />
+                        <input type="submit" value="2" class="btn btn-success rounded" />
+                    </form>
+                    <form asp-action="Details" asp-route-id="@Model.Song.Id" class="m-1">
+                        <input type="hidden" name="CurrentUsersRating" value="3" />
+                        <input type="submit" value="3" class="btn btn-success rounded" />
+                    </form>
+                    <form asp-action="Details" asp-route-id="@Model.Song.Id" class="m-1">
+                        <input type="hidden" name="CurrentUsersRating" value="4" />
+                        <input type="submit" value="4" class="btn btn-success rounded" />
+                    </form>
+                    <form asp-action="Details" asp-route-id="@Model.Song.Id" class="m-1">
+                        <input type="hidden" name="CurrentUsersRating" value="5" />
+                        <input type="submit" value="5" class="btn btn-success rounded" />
+                    </form>
                 </div>
             </div>
-            <div class="row my-3">
-                <input type="submit" value="Submit / change rating" class="btn btn-success col-3"/>
-            </div>
-        </form>
-    }
+        </div>
+    </div>
 }
 
-<div>
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-action="Edit" asp-route-id="@Model.Song.Id" class="btn btn-primary rounded col-1"><img src="/icons/contract.svg" alt="Edit song" width="26" height="26" /></a>
-        <a asp-action="Index" class="btn btn-secondary rounded p-2 col-2">Back to song list</a>
-    }
-    else
-    {
-        <a asp-action="Index" class="btn btn-secondary rounded p-2 col-3">Back to song list</a>
-    }
+@if (User.IsInRole("Admin"))
+{
+    <div class="my-2">
+        <div class="row ml-0">
+            <a asp-action="Edit" asp-route-id="@Model.Song.Id" class="btn btn-primary rounded">Edit song</a>
+        </div>
+    </div>
+}
+
+<div class="my-4">
+    <div class="row ml-0">
+        <a asp-action="Index">Back to song list</a>
+    </div>
 </div>
