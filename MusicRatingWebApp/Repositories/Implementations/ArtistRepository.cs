@@ -70,7 +70,7 @@ namespace MusicRatingWebApp.Repositories.Implementations
         public List<SimpleSongOutputDto> GetSongDtosForArtist(Artist artist)
         {
             // Get all songs by artist
-            var songs = context.Songs.Where(s => s.ArtistId == artist.Id);
+            var songs = context.Songs.Where(s => s.ArtistId == artist.Id).ToList();
             var songDtos = new List<SimpleSongOutputDto>();
             foreach (var song in songs)
             {
@@ -106,19 +106,19 @@ namespace MusicRatingWebApp.Repositories.Implementations
 
         private ICollection<Rating> GetRatingsForSong(int songId)
         {
-            var ratings = context.Ratings.Where(r => r.SongId == songId);
-            return ratings.ToList();
+            var ratings = context.Ratings.Where(r => r.SongId == songId).ToList();
+            return ratings;
         }
 
         private List<Rating> GetRatingsForArtist(int artistId)
         {
             // Get all songs by artist
-            var songs = context.Songs.Where(s => s.ArtistId == artistId);
+            var songs = context.Songs.Where(s => s.ArtistId == artistId).ToList();
 
             var ratings = new List<Rating>();
             foreach (var song in songs)
             {
-                var songRatings = context.Ratings.Where(r => r.SongId == song.Id);
+                var songRatings = context.Ratings.Where(r => r.SongId == song.Id).ToList();
                 ratings.AddRange(songRatings);
             }
 

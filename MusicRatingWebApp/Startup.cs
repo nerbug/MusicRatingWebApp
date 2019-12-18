@@ -54,7 +54,7 @@ namespace MusicRatingWebApp
 
             // Add database context
             services.AddDbContext<MusicRatingWebAppDbContext>(opt =>
-                opt.UseSqlServer(Configuration.GetConnectionString("DatabaseConnectionString")));
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Add services
             services.AddScoped<IRatingRepository, RatingRepository>();

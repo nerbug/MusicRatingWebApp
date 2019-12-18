@@ -27,14 +27,14 @@ namespace MusicRatingWebApp.Repositories.Implementations
             int max = maxYear ?? GetNewestSongsYear();
 
             // Get all songs in year range
-            var songsInYearRange = context.Songs.Where(s => s.Year >= min && s.Year <= max);
+            var songsInYearRange = context.Songs.Where(s => s.Year >= min && s.Year <= max).ToList();
 
             // Continue filtering
             var songsWithTitle = title != null
-                ? songsInYearRange.AsEnumerable().Where(s => s.Title.Contains(title, StringComparison.CurrentCultureIgnoreCase))
+                ? songsInYearRange.Where(s => s.Title.Contains(title, StringComparison.CurrentCultureIgnoreCase)).ToList()
                 : songsInYearRange;
             var finalSongsList = genre != null
-                ? songsWithTitle.AsEnumerable().Where(s => s.Genre.Contains(genre, StringComparison.CurrentCultureIgnoreCase))
+                ? songsWithTitle.Where(s => s.Genre.Contains(genre, StringComparison.CurrentCultureIgnoreCase)).ToList()
                 : songsWithTitle;
             return finalSongsList;
         }
