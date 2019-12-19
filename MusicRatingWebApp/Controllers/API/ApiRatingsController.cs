@@ -55,7 +55,7 @@ namespace MusicRatingWebApp.Controllers.API
 
             if (User.Identity is ClaimsIdentity claimsIdentity)
             {
-                var userIdString = claimsIdentity.FindFirst(ClaimTypes.Name).Value;
+                var userIdString = claimsIdentity.FindFirst(c => c.Type == "userId").Value;
                 var userId = int.Parse(userIdString);
                 var roles = claimsIdentity.FindAll(ClaimTypes.Role).Select(r => r.Value);
                 if (ratingInputDto.Id != userId && !roles.Contains("Admin"))
