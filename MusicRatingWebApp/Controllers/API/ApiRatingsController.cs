@@ -101,7 +101,7 @@ namespace MusicRatingWebApp.Controllers.API
 
             if (User.Identity is ClaimsIdentity claimsIdentity)
             {
-                var userIdString = claimsIdentity.FindFirst(ClaimTypes.Name).Value;
+                var userIdString = claimsIdentity.FindFirst(c => c.Type == "userId").Value;
                 var userIdFromJwt = int.Parse(userIdString);
                 if (userId != userIdFromJwt)
                     return BadRequest(new {message = "Tried to create rating for different user!"});
