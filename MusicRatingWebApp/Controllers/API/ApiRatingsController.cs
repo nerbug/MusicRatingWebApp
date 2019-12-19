@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using MusicRatingWebApp.Helpers;
 using MusicRatingWebApp.Models;
 using MusicRatingWebApp.Models.DTOs;
@@ -98,6 +99,10 @@ namespace MusicRatingWebApp.Controllers.API
         {
             var userId = ratingInputDto.UserId;
             var songId = ratingInputDto.SongId;
+
+            var existingRating = repository.GetRatingWithUserAndSongIds(userId, songId);
+            if (existingRating != null)
+                return BadRequest(new { message = "Rating with given user and song IDs already exists!" });
 
             if (User.Identity is ClaimsIdentity claimsIdentity)
             {
